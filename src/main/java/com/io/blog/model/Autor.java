@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @Entity
 public class Autor {
@@ -19,9 +21,19 @@ public class Autor {
 	@NotEmpty
 	@Column(nullable = false)
 	private String nome;
+	
+	@NotEmpty
+	@Column(nullable = false)
 	private String email;
+	
+	@NotEmpty
+	@Column(nullable = false)
 	private String matricula;
+	
+	@NotEmpty
+	@Column(nullable = false)
 	private String senha;
+	
 	private Boolean admin;
 	
 	public Long getId() {
@@ -51,9 +63,11 @@ public class Autor {
 	public String getSenha() {
 		return senha;
 	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+
+    public void setSenha(String senha) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.senha = encoder.encode(senha);
+    }
 	public Boolean getAdmin() {
 		return admin;		
 	}
